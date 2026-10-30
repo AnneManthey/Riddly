@@ -11,7 +11,7 @@ env/
 #Django
 db.sqlite3
 media/
-static/
+#static/
 staticfiles/
 local_settings.py
 *.log
