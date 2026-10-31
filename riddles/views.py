@@ -3,8 +3,8 @@ from django.http import HttpResponse
 
 # Create your views here.
 
-def login(response):
-    return HttpResponse("Hier entsteht bald der Login.")
+def login(request):
+    return render(request, 'login.html')
 
 def dashboard(request):
-    return HttpResponse("Hier ist das Dashboard.")
+    return render(request, 'dashboard.html')
