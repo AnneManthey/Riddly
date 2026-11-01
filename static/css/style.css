@@ -6,9 +6,10 @@
 
 body {
     min-height: 100dvh;
-    display: grid;
-    place-content: center;
-    font-size: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 2rem;
     background-color: black;
     color: whitesmoke;
 }
@@ -16,4 +17,18 @@ body {
 h1,
 p {
     text-align: center;
+}
+
+.door-section{
+    padding: 50px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.single-door{
+    width: 100px;
+    height: 100px;
 }

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Door
 
 # Create your views here.
 
@@ -7,4 +7,5 @@ def login(request):
     return render(request, 'login.html')
 
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    doors = Door.objects.all()
+    return render(request, 'dashboard.html', {'doors': doors})

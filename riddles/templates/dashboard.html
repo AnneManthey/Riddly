@@ -7,4 +7,13 @@
 {% block content %}
   <h1>Dashboard</h1>
   <p>Hier entsteht der Adventskalender</p>
+  <section class="door-section">
+    {% for door in doors %}
+    <article>
+      <button class="single-door">
+        <h2>{{ door.number }}</h2>
+      </button>
+    </article>
+  {% endfor %}
+  </section>
 {% endblock %}

@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-        {% block title %}
+      {% block title %}
         Riddly
-        {% endblock %}
+      {% endblock %}
     </title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <script src="{% static 'js/script.js' %}" defer></script>
-</head>
-<body>
-    <nav>
-        <a href="/">🏠 Login</a> | 
-        <a href="/dashboard">📅 Kalender</a> | 
-        <a href="/imprint"> Impressum</a> | 
-        
-    </nav>
+  </head>
+  <body>
     <main>
-        {% block content %}
-        {% endblock %}
+      {% block content %}
+
+      {% endblock %}
     </main>
 
-    
-</body>
+    <footer>
+      © 2026 Anne Manthey | <a href="/imprint">Impressum</a>
+    </footer>
+  </body>
 </html>
