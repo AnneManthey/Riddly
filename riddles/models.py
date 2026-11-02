@@ -17,6 +17,7 @@ class Door(models.Model):
     solved_at = models.DateTimeField(null = True, blank=True, default= None )
     css = models.CharField(max_length=50, blank=True)
     js = models.CharField(max_length=50, blank=True)
+    slug = models.SlugField(max_length=100, null=True, blank=True) 
 
     class Meta:
         ordering = ['number']

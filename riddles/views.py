@@ -7,5 +7,8 @@ def login(request):
     return render(request, 'login.html')
 
 def dashboard(request):
-    doors = Door.objects.all()
+    doors = Door.objects.all().order_by('number')
     return render(request, 'dashboard.html', {'doors': doors})
+
+def riddle(request, slug):
+    return render(request, 'riddle.html',)

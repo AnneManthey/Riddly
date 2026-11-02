@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Rätsel {{ door.title }}
+{% endblock %}
+
+{% block content %}
+  <h1>Tür {{ door.title }}</h1>
+
+  <section class="riddle">
+    <h2>{{ door.riddle }}</h2>
+
+    <form action="/action_page.php">
+      <label for="fname">Antwort:</label>
+      <input type="text" id="fname" name="fname" /><br /><br />
+      <input type="submit" value="Absenden" />
+    </form>
+  </section>
+{% endblock %}

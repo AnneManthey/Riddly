@@ -5,13 +5,16 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Dashboard</h1>
-  <p>Hier entsteht der Adventskalender</p>
+  <h1>Riddly</h1>
+  
   <section class="door-section">
     {% for door in doors %}
     <article>
-      <button class="single-door">
-        <h2>{{ door.number }}</h2>
+      <button onclick="" class="single-door">
+        <a href="{% url 'riddle' slug=door.slug %}">
+          <h2>{{ door.title }}</h2>
+        <p>{{ door.loot }}</p>
+        </a>
       </button>
     </article>
   {% endfor %}
