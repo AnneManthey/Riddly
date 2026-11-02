@@ -11,4 +11,5 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'doors': doors})
 
 def riddle(request, slug):
-    return render(request, 'riddle.html',)
+    door = Door.objects.get(slug=slug)
+    return render(request, 'riddle.html',{'door': door})

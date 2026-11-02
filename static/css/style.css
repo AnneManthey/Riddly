@@ -16,9 +16,13 @@ body {
     color: whitesmoke;
 }
 
-h1,
-p {
+h1 {
     text-align: center;
+}
+
+h2, p{
+    text-align: center;
+    color: black;
 }
 
 .door-section{
@@ -33,6 +37,10 @@ p {
 .single-door{
     width: 100px;
     height: 100px;
+    a{
+        text-decoration: none;
+    }
+    
 }
 
 footer{

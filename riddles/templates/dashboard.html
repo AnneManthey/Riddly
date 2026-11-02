@@ -10,7 +10,7 @@
   <section class="door-section">
     {% for door in doors %}
     <article>
-      <button onclick="" class="single-door">
+      <button class="single-door">
         <a href="{% url 'riddle' slug=door.slug %}">
           <h2>{{ door.title }}</h2>
         <p>{{ door.loot }}</p>
