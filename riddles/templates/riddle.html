@@ -8,7 +8,10 @@
   <h1>Tür {{ door.title }}</h1>
 
   <section class="riddle">
-    <h2>{{ door.riddle }}</h2>
+    {% if door.image %}
+      <img src="{{ door.image.url }}" alt="" />
+    {% endif %}
+    <h3>{{ door.riddle }}</h3>
 
     <form action="/action_page.php">
       <label for="fname">Antwort:</label>
