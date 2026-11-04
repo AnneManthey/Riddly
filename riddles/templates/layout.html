@@ -13,6 +13,13 @@
     <script src="{% static 'js/script.js' %}" defer></script>
   </head>
   <body>
+    <header>
+      {% comment %} Eingeloggt als{{}} {% endcomment %}
+      <form class="logout" action="{% url 'login' %}"method="post">
+        {% csrf_token %}
+        <button class="logout-btn">Logout</button>
+      </form>
+    </header>
     <main>
       {% block content %}
 
@@ -20,7 +27,7 @@
     </main>
 
     <footer>
-      © 2026 Anne Manthey | <a href="/imprint">Impressum</a>
+      © 2026 | <a href="/imprint">Impressum</a> 
     </footer>
   </body>
 </html>

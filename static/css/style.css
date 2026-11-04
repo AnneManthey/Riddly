@@ -1,3 +1,5 @@
+/* Layout Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -16,6 +18,15 @@ body {
     color: whitesmoke;
 }
 
+footer{
+    font-size: 1rem;
+    color: gray;
+    a{
+        text-decoration: none;
+        color: gray;
+    }
+}
+
 h1 {
     text-align: center;
 }
@@ -24,6 +35,8 @@ h2, p{
     text-align: center;
     color: black;
 }
+
+/* Dashboard Styles */
 
 .door-section{
     padding: 50px 20px;
@@ -41,6 +54,8 @@ h2, p{
         text-decoration: none;
     }}
 
+/* Riddle Styles */
+
 .riddle{
     width: 100%;
     display: flex;
@@ -52,12 +67,45 @@ h2, p{
     }
 }
     
+/* Login Styles */
 
-footer{
+.login-form{
     font-size: 1rem;
-    color: gray;
-    a{
-        text-decoration: none;
-        color: gray;
-    }
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
+
+.login-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.login-form input {
+    padding: 0.25rem;
+    max-width: 300px;
+}
+
+.login-btn{
+    width: 100px;
+}
+
+.helptext{
+    font-size: 1rem;
+    margin-left: 1rem;
+}
+
+.errorlist {
+    color: red;
+    margin-left: 2rem;
+}
+
+/* Logout Styles */
+ .logout{
+    display: inline-block;
+ }
+
+ 
