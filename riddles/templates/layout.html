@@ -9,16 +9,23 @@
         Riddly
       {% endblock %}
     </title>
+    <link rel="icon" type="image/png" href="{% get_media_prefix %}img/favicon.png" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}" />
     <script src="{% static 'js/script.js' %}" defer></script>
   </head>
   <body>
     <header>
-      {% comment %} Eingeloggt als{{}} {% endcomment %}
-      <form class="logout" action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button class="logout-btn">Logout</button>
-      </form>
+      {% if user.is_authenticated %}
+      <div class="header-user">
+        <span class="user-info">Eingeloggt als {{ user.username }}</span>
+        <form class="logout" action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="logout-btn">Logout</button>
+        </form>
+      </div>
+      {% endif %}
+      
     </header>
     <main>
       {% block content %}
@@ -27,7 +34,7 @@
     </main>
 
     <footer>
-      © 2026 | <a href="/imprint">Impressum</a> 
+      © 2026 | <a href="/imprint">Impressum</a> | <a href="/admin">Admin</a>
     </footer>
   </body>
 </html>

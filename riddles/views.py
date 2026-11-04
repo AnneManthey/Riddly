@@ -16,12 +16,12 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {"form": form})
 
-@login_required(login_url="")
+@login_required(login_url="login")
 def dashboard(request):
     doors = Door.objects.all().order_by('number')
     return render(request, 'dashboard.html', {'doors': doors})
 
-@login_required(login_url="")
+@login_required(login_url="login")
 def riddle(request, slug):
     door = Door.objects.get(slug=slug)
     return render(request, 'riddle.html',{'door': door})
