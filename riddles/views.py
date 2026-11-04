@@ -1,10 +1,20 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Door
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login as auth_login
 # Create your views here.
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == "POST":
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            auth_login(request, form.get_user())
+            return redirect("dashboard")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {"form": form})
+
+    
 
 def dashboard(request):
     doors = Door.objects.all().order_by('number')

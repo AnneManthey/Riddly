@@ -6,9 +6,17 @@
 
 {% block content %}
 
+  <h1>Anmelden</h1>
 
-  <h1>Login</h1>
-  <p>Weiter zum <a href="/dashboard">Dashboard</a></p>
+  <form class="login-form" action="" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button class="login-btn">Login</button>
+  </form>
+
+
+
+  <p>Zum <a href="/dashboard">Adminpanel</a></p>
 {% endblock %}
 
 
