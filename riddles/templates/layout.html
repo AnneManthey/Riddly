@@ -15,7 +15,7 @@
   <body>
     <header>
       {% comment %} Eingeloggt als{{}} {% endcomment %}
-      <form class="logout" action="{% url 'login' %}"method="post">
+      <form class="logout" action="{% url 'logout' %}" method="post">
         {% csrf_token %}
         <button class="logout-btn">Logout</button>
       </form>

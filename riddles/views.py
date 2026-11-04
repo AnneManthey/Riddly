@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Door
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout 
-
+from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 
 
 def login(request):
@@ -16,12 +16,12 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {"form": form})
 
-
+@login_required(login_url="")
 def dashboard(request):
     doors = Door.objects.all().order_by('number')
     return render(request, 'dashboard.html', {'doors': doors})
 
-
+@login_required(login_url="")
 def riddle(request, slug):
     door = Door.objects.get(slug=slug)
     return render(request, 'riddle.html',{'door': door})
@@ -29,5 +29,5 @@ def riddle(request, slug):
 
 def logout(request):
     if request.method == "POST":
-        logout(request)  
-        return redirect("login")
+        auth_logout(request)
+    return redirect("login")
