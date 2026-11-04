@@ -11,8 +11,11 @@
     {% for door in doors %}
     <article>
       <a class="single-door" href="{% url 'riddle' slug=door.slug %}">
-        <h2>{{ door.title }}</h2>
-        <p>{{ door.loot }}</p>
+        {% if door.solved %}
+          <p>{{ door.loot }}</p>
+        {% else %}
+          <h2>{{ door.title }}</h2>
+        {% endif %}
       </a>
     </article>
   {% endfor %}

@@ -35,7 +35,10 @@ footer {
 
 h1 {
     text-align: center;
+    font-size: 2.5rem;
+    padding: 1rem 0rem;
 }
+
 
 h2,
 p {
@@ -120,11 +123,11 @@ header{
 }
 
 .single-door h2 {
-    font-size: 1.25rem;
+    font-size: 2rem;
 }
 
 .single-door p {
-    font-size: 0.75rem;
+    font-size: 1rem;
 }
 
 .single-door::before,
@@ -233,11 +236,50 @@ header{
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
 
     img {
         width: 200px;
         height: 200px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+}
+
+.riddle-box{
+    background-color: black;
+    padding: 1rem;
+    border-radius: 5px;
+}
+.riddle-text{
+    font-size: 1rem;
+    color: whitesmoke;
+    line-height: 120%;
+}
+
+.riddle-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.riddle-form label{
+    font-size: 1.2rem;
+}
+
+.absenden-btn {
+    
+    border-radius: 2rem;
+    border: none;
+    padding: 0.3rem 1.1rem ;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: "Figtree";
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
 }
 
 /* Login Styles */

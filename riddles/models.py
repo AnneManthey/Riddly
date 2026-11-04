@@ -11,6 +11,7 @@ class Door(models.Model):
     image = models.ImageField(upload_to='img/', blank=True )
     title = models.CharField(max_length=100)
     riddle = models.TextField()
+    question = models.CharField(max_length=100, default="Antwort:")
     solution = models.CharField(max_length=100)
     loot = models.CharField(max_length=50)
     solved = models.BooleanField(default=False)

@@ -5,18 +5,22 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Tür {{ door.title }}</h1>
+  <h1>Rätsel {{ door.title }}</h1>
 
   <section class="riddle">
     {% if door.image %}
       <img src="{{ door.image.url }}" alt="" />
     {% endif %}
-    <h3>{{ door.riddle }}</h3>
+    <section class="riddle-box">
+      <p class="riddle-text">{{ door.riddle }}</p>
+    </section>
+    
 
-    <form action="/action_page.php">
-      <label for="fname">Antwort:</label>
-      <input type="text" id="fname" name="fname" /><br /><br />
-      <input type="submit" value="Absenden" />
+    <form class="riddle-form" action="/action_page.php">
+      <label for="fname">{{ door.question }}</label>
+      <input type="text" id="fname" name="fname" />
+      <button class="absenden-btn">Absenden</button>
+      {% comment %} <input type="submit" value="Absenden" /> {% endcomment %}
     </form>
   </section>
 {% endblock %}
