@@ -44,7 +44,9 @@ p {
     font-family: "Figtree";
 }
 
-
+header{
+    padding: 8px;
+}
 
 .header-user {
     display: flex;
@@ -52,6 +54,13 @@ p {
     justify-content: flex-end;
     align-items: center;
     font-size: 1rem;
+}
+
+.logout-btn{
+    background-color: transparent;
+    border: none;
+    color: whitesmoke;
+    font-weight: bold;
 }
 
 /* Dashboard Styles */
@@ -65,14 +74,157 @@ p {
     gap: 10px;
 }
 
+/* Door Button Styles */
+
 .single-door {
+    /* --button-bg: #ff0081; */
+    --button-bg: rgb(0, 0, 0, 0.5);
+    --bubble-color: #fff3a6;
     width: 100px;
     height: 100px;
-
-    a {
-        text-decoration: none;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0;
+    appearance: none;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--button-bg);
+    /* box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5); */
+     box-shadow: 0 2px 25px rgba(56, 1, 29, 0.5);
+    color: #fff;
+    cursor: pointer;
+    font-family: "Figtree", sans-serif;
+    font-size: 1rem;
+    isolation: isolate;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
 }
+
+.single-door:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+.single-door h2,
+.single-door p {
+    color: inherit;
+    font-family: inherit;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+    margin: 0;
+}
+
+.single-door h2 {
+    font-size: 1.25rem;
+}
+
+.single-door p {
+    font-size: 0.75rem;
+}
+
+.single-door::before,
+.single-door::after {
+    position: absolute;
+    content: "";
+    display: none;
+    width: 140%;
+    height: 100%;
+    left: -20%;
+    z-index: 0;
+    transition: all ease-in-out 0.5s;
+    background-repeat: no-repeat;
+}
+
+.single-door::before {
+    top: -75%;
+    background-image:
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, transparent 20%, var(--bubble-color) 20%, transparent 30%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, var(--bubble-color) 15%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%);
+    background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%,
+        15% 15%, 10% 10%, 18% 18%;
+}
+
+.single-door::after {
+    bottom: -75%;
+    background-image:
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, transparent 10%, var(--bubble-color) 15%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%),
+        radial-gradient(circle, var(--bubble-color) 20%, transparent 20%);
+    background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%,
+        20% 20%;
+}
+
+.single-door > * {
+    position: relative;
+    z-index: 1;
+}
+
+.single-door:active {
+    transform: scale(0.9);
+    /* background-color: #e60074; */
+    background-color: rgb(0, 0, 0, 0.5);
+    box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
+}
+
+.single-door.animate::before {
+    display: block;
+    animation: topBubbles ease-in-out 1.8s forwards;
+}
+
+.single-door.animate::after {
+    display: block;
+    animation: bottomBubbles ease-in-out 1.8s forwards;
+}
+
+@keyframes topBubbles {
+  0% {
+    background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+      40% 90%, 55% 90%, 70% 90%;
+  }
+  50% {
+    background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+      50% 50%, 65% 20%, 90% 30%;
+  }
+  100% {
+    background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+      50% 40%, 65% 10%, 90% 20%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+@keyframes bottomBubbles {
+  0% {
+    background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+      70% -10%, 70% 0%;
+  }
+  50% {
+    background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+      105% 0%;
+  }
+  100% {
+    background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+      110% 10%;
+    background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+  }
+}
+
+
 
 /* Riddle Styles */
 
@@ -108,10 +260,30 @@ p {
 .login-form input {
     padding: 0.25rem;
     max-width: 300px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    color: whitesmoke;
+}
+
+.login-form label{
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .login-btn {
     width: 100px;
+    border-radius: 2rem;
+    border: none;
+    padding: 0.3rem 1.1rem ;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    font-family: "Figtree";
+    background-color: whitesmoke;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
 }
 
 .helptext {
