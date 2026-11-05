@@ -34,7 +34,7 @@ def riddle(request, slug):
             door.solved_at = timezone.now()
             door.save()
             messages.success(request, "Yay!.")
-            return redirect("dashboard")
+            return redirect("riddle", slug=slug)
         door.save()
         messages.error(request, "Nö. Nächster Versuch!")
         return redirect("riddle", slug=slug)

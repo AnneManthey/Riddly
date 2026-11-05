@@ -21,6 +21,13 @@
     
 
     {% if door.solved %}
+      {% if messages %}
+        <ul class="messages" data-redirect-url="{% url 'dashboard' %}" data-redirect-delay="2000">
+          {% for message in messages %}
+            <li class="message {{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
       <p class="riddle-text">Gelöst: {{ door.solution }}</p>
     {% else %}
       {% if door.attempts > 0 %}

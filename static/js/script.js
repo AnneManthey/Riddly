@@ -1,6 +1,14 @@
 const doors = document.querySelectorAll(".single-door");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+const redirectMessage = document.querySelector("[data-redirect-url]");
+if (redirectMessage) {
+  window.setTimeout(
+    () => window.location.assign(redirectMessage.dataset.redirectUrl),
+    Number(redirectMessage.dataset.redirectDelay) || 2000,
+  );
+}
+
 doors.forEach((door) => {
   door.addEventListener("click", (event) => {
     if (
