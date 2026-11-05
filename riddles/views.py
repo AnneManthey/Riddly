@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.utils import timezone
 from .models import Door
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
@@ -23,8 +25,19 @@ def dashboard(request):
 
 @login_required(login_url="login")
 def riddle(request, slug):
-    door = Door.objects.get(slug=slug)
-    return render(request, 'riddle.html',{'door': door})
+    door = get_object_or_404(Door, slug=slug, user=request.user)
+    if request.method == "POST" and not door.solved:
+        answer = request.POST.get("answer", "").strip().lower()
+        door.attempts += 1
+        if answer and door.solution.strip().lower() in answer:
+            door.solved = True
+            door.solved_at = timezone.now()
+            door.save()
+            messages.success(request, "Richtig! Gut gemacht.")
+            return redirect("dashboard")
+        door.save()
+        messages.error(request, "Leider falsch, versuch es nochmal.")
+    return render(request, 'riddle.html', {'door': door})
 
 
 def logout(request):

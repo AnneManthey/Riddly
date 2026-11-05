@@ -18,10 +18,17 @@
     </section>
     
 
-    <form class="riddle-form" action="/action_page.php">
-      {% comment %} <label for="fname">Antwort</label> {% endcomment %}
-      <input type="text" id="fname" name="fname" />
-      <button class="absenden-btn">Absenden</button>
-    </form>
+    {% if door.solved %}
+      <p class="riddle-text">Gelöst: {{ door.solution }}</p>
+    {% else %}
+      {% if door.attempts > 0 %}
+        <p class="attempts">Versuche: {{ door.attempts }}</p>
+      {% endif %}
+      <form class="riddle-form" method="post">
+        {% csrf_token %}
+        <input type="text" id="answer" name="answer" autocomplete="off" />
+        <button class="absenden-btn">Absenden</button>
+      </form>
+    {% endif %}
   </section>
 {% endblock %}

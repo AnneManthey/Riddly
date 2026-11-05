@@ -15,6 +15,7 @@ class Door(models.Model):
     solution = models.CharField(max_length=100)
     loot = models.CharField(max_length=50)
     solved = models.BooleanField(default=False)
+    attempts = models.PositiveIntegerField(default=0)
     solved_at = models.DateTimeField(null = True, blank=True, default= None )
     css = models.CharField(max_length=50, blank=True)
     js = models.CharField(max_length=50, blank=True)
