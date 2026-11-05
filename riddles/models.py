@@ -27,6 +27,10 @@ class Door(models.Model):
             models.UniqueConstraint(
                 fields=['user', 'number'],
                 name='unique_door_per_user'
+            ),
+            models.UniqueConstraint(
+                fields=['user', 'slug'],
+                name='unique_slug_per_user'
             )
         ]
     def __str__(self):

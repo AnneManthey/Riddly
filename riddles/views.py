@@ -20,7 +20,7 @@ def login(request):
 
 @login_required(login_url="login")
 def dashboard(request):
-    doors = Door.objects.all().order_by('number')
+    doors = Door.objects.filter(user=request.user).order_by('number')
     return render(request, 'dashboard.html', {'doors': doors})
 
 @login_required(login_url="login")
@@ -33,10 +33,10 @@ def riddle(request, slug):
             door.solved = True
             door.solved_at = timezone.now()
             door.save()
-            messages.success(request, "Richtig! Gut gemacht.")
+            messages.success(request, "Richtig!.")
             return redirect("dashboard")
         door.save()
-        messages.error(request, "Leider falsch, versuch es nochmal.")
+        messages.error(request, "Das ist nicht die richtige Antwort.")
     return render(request, 'riddle.html', {'door': door})
 
 
