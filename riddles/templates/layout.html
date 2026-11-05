@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,18 +16,16 @@
   </head>
   <body>
     <header>
-      
       {% if user.is_authenticated %}
-      <div class="header-user">
-        <a href="/dashboard/"><img src="../media/img/kalender.png" alt=""></a>
-        <span class="user-info"> | Eingeloggt als {{ user.username }} |</span>
-        <form class="logout" action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button class="logout-btn">Logout</button>
-        </form>
-      </div>
+        <div class="header-user">
+          <a href="/dashboard/"><img src="../media/img/kalender.png" alt="Home" /></a>
+          <span class="user-info">Eingeloggt als {{ user.username }}</span>
+          <form class="logout" action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="logout-btn">Logout</button>
+          </form>
+        </div>
       {% endif %}
-      
     </header>
     <main>
       {% block messages %}

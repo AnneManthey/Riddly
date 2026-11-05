@@ -28,9 +28,9 @@
           {% endfor %}
         </ul>
       {% endif %}
-      <p class="riddle-text">Gelöst: {{ door.solution }}</p>
+      <p class="riddle-text">Gelöst: <br> {{ door.solution }} <br> ({{ door.solved_at}})</p>
     {% else %}
-      
+     
       {% if messages %}
         <ul class="messages">
           {% for message in messages %}
@@ -38,7 +38,7 @@
           {% endfor %}
         </ul>
       {% endif %}
-      {% if door.attempts > 0 %}
+       {% if door.attempts > 0 %}
         <p class="attempts">Versuche: {{ door.attempts }}</p>
       {% endif %}
       </section>
