@@ -33,10 +33,11 @@ def riddle(request, slug):
             door.solved = True
             door.solved_at = timezone.now()
             door.save()
-            messages.success(request, "Richtig!.")
+            messages.success(request, "Yay!.")
             return redirect("dashboard")
         door.save()
-        messages.error(request, "Das ist nicht die richtige Antwort.")
+        messages.error(request, "Nö. Nächster Versuch!")
+        return redirect("riddle", slug=slug)
     return render(request, 'riddle.html', {'door': door})
 
 

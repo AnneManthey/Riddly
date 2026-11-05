@@ -14,8 +14,7 @@ body {
     align-items: center;
     padding: 8px;
     font-size: 2rem;
-    font-family: "Figtree";
-    /* background-color: black; */
+    font-family: Arial, Helvetica, sans-serif;
     background-image: url("/media/img/backgound.png");
     background-position: center;
     background-repeat: no-repeat;
@@ -44,7 +43,7 @@ h2,
 p {
     text-align: center;
     color: black;
-    font-family: "Figtree";
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 header{
@@ -80,7 +79,6 @@ header{
 /* Door Button Styles */
 
 .single-door {
-    /* --button-bg: #ff0081; */
     --button-bg: rgb(0, 0, 0, 0.5);
     --bubble-color: #fff3a6;
     width: 100px;
@@ -95,11 +93,10 @@ header{
     border: none;
     border-radius: 8px;
     background-color: var(--button-bg);
-    /* box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5); */
-     box-shadow: 0 2px 25px rgba(56, 1, 29, 0.5);
+    box-shadow: 0 2px 25px rgba(56, 1, 29, 0.5);
     color: #fff;
     cursor: pointer;
-    font-family: "Figtree", sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
     font-size: 1rem;
     isolation: isolate;
     position: relative;
@@ -240,7 +237,8 @@ header{
 
     img {
         width: 200px;
-        height: 200px;
+        min-height: 200px;
+        border: 2px solid rgba(0,0,0,0.7);
         border-radius: 5px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
@@ -252,9 +250,26 @@ header{
     border-radius: 5px;
 }
 .riddle-text{
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: whitesmoke;
-    line-height: 120%;
+    line-height: 150%;
+}
+
+.attempts{
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.message.error{
+    color: rgb(50, 4, 4);
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.message.succes{
+    color: green;
+    font-size: 1rem;
+    font-weight: bold;
 }
 
 .riddle-form{
@@ -286,12 +301,11 @@ header{
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;
-    font-family: "Figtree";
+    font-family:Arial, Helvetica, sans-serif;
     color: whitesmoke;
     /* background-color: whitesmoke; */
     background-color: rgba(0,0,0,0.7);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    
 }
 
 /* Login Styles */
@@ -334,7 +348,7 @@ header{
     text-align: center;
     font-weight: bold;
     font-size: 1.2rem;
-    font-family: "Figtree";
+    font-family:Arial, Helvetica, sans-serif;
     background-color: whitesmoke;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     

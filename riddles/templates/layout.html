@@ -28,13 +28,15 @@
       
     </header>
     <main>
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li class="message {{ message.tags }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
+      {% block messages %}
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="message {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endblock %}
       {% block content %}
 
       {% endblock %}

@@ -4,6 +4,8 @@
   Rätsel {{ door.title }}
 {% endblock %}
 
+{% block messages %}{% endblock %}
+
 {% block content %}
   {% comment %} <h1>Rätsel {{ door.title }}</h1> {% endcomment %}
 
@@ -23,6 +25,13 @@
     {% else %}
       {% if door.attempts > 0 %}
         <p class="attempts">Versuche: {{ door.attempts }}</p>
+      {% endif %}
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="message {{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
       {% endif %}
       <form class="riddle-form" method="post">
         {% csrf_token %}
