@@ -25,6 +25,7 @@ body {
 footer {
     font-size: 1rem;
     color: black;
+    padding: 16px 0px 8px 0px;
 
     a {
         text-decoration: none;
@@ -53,9 +54,13 @@ header{
 .header-user {
     display: flex;
     gap: 0.5rem;
-    justify-content: flex-end;
+    
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    img{
+        width: 16px;
+        height: 16px;
+    }
 }
 
 .logout-btn{
@@ -237,7 +242,7 @@ header{
 
     img {
         width: 200px;
-        min-height: 200px;
+        min-height: 150px;
         border: 2px solid rgba(0,0,0,0.7);
         border-radius: 5px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -253,11 +258,14 @@ header{
     font-size: 1.1rem;
     color: whitesmoke;
     line-height: 150%;
+    padding: 0.5rem;
 }
 
 .attempts{
+    padding-top: 1rem;
     font-size: 0.8rem;
-    font-weight: bold;
+    color: gray;
+    text-align: end;
 }
 
 .message{
@@ -283,15 +291,19 @@ header{
 }
 
 .message.error{
-    color: rgb(50, 4, 4);
+    color: rgb(112, 9, 9);
     font-size: 1rem;
     font-weight: bold;
+    text-align: center;
+    padding-top: 1rem;
 }
 
 .message.success{
     color: green;
-    font-size: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
     font-weight: bold;
+    text-align: center;
 }
 
 .riddle-form{

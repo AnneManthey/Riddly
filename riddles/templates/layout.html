@@ -16,9 +16,11 @@
   </head>
   <body>
     <header>
+      
       {% if user.is_authenticated %}
       <div class="header-user">
-        <span class="user-info">Eingeloggt als {{ user.username }} |</span>
+        <a href="/dashboard/"><img src="../media/img/kalender.png" alt=""></a>
+        <span class="user-info"> | Eingeloggt als {{ user.username }} |</span>
         <form class="logout" action="{% url 'logout' %}" method="post">
           {% csrf_token %}
           <button class="logout-btn">Logout</button>
@@ -43,7 +45,7 @@
     </main>
 
     <footer>
-      © 2026 | <a href="/imprint">Impressum</a> | <a href="/admin/">Admin</a>
+      © 2026 | <a href="/impressum/">Impressum</a> | <a href="/admin/">Admin</a>
     </footer>
   </body>
 </html>

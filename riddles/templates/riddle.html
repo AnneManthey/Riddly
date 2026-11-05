@@ -17,7 +17,7 @@
       <p class="riddle-text">{{ door.riddle }}</p>
       <br>
       <p class="riddle-text">{{ door.question }}</p>
-    </section>
+    
     
 
     {% if door.solved %}
@@ -30,9 +30,7 @@
       {% endif %}
       <p class="riddle-text">Gelöst: {{ door.solution }}</p>
     {% else %}
-      {% if door.attempts > 0 %}
-        <p class="attempts">Versuche: {{ door.attempts }}</p>
-      {% endif %}
+      
       {% if messages %}
         <ul class="messages">
           {% for message in messages %}
@@ -40,6 +38,10 @@
           {% endfor %}
         </ul>
       {% endif %}
+      {% if door.attempts > 0 %}
+        <p class="attempts">Versuche: {{ door.attempts }}</p>
+      {% endif %}
+      </section>
       <form class="riddle-form" method="post">
         {% csrf_token %}
         <input type="text" id="answer" name="answer" autocomplete="off" />

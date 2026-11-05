@@ -36,7 +36,7 @@ def riddle(request, slug):
             messages.success(request, "Yay!.")
             return redirect("riddle", slug=slug)
         door.save()
-        messages.error(request, "Nö. Nächster Versuch!")
+        messages.error(request, "Nicht ganz. Nächster Versuch!")
         return redirect("riddle", slug=slug)
     return render(request, 'riddle.html', {'door': door})
 
@@ -45,3 +45,6 @@ def logout(request):
     if request.method == "POST":
         auth_logout(request)
     return redirect("login")
+
+def imprint(request):
+    return render(request, 'impressum.html')
