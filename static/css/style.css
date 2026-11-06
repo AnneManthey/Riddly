@@ -251,7 +251,15 @@ header{
 }
 
 .riddle-box{
-    background-color: rgba(0,0,0,0.7);
+    background: radial-gradient(
+        ellipse farthest-corner,
+        rgba(0,0,0,0.7) 0%,
+        rgba(0,0,0,0.7) calc(100% - 2rem),
+        rgba(0,0,0,0.6) calc(100% - 1.5rem),
+        rgba(0,0,0,0.35) calc(100% - 1rem),
+        rgba(0,0,0,0.15) calc(100% - 0.5rem),
+        transparent 100%
+    );
     padding: 1rem;
     border-radius: 5px;
 }
