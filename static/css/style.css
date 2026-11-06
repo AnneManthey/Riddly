@@ -116,6 +116,20 @@ header{
     outline-offset: 3px;
 }
 
+.single-door.door-locked {
+    --button-bg: rgb(0, 0, 0, 0.3);
+    color: rgb(255, 255, 255, 0.65);
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: 0.7;
+    box-shadow: none;
+}
+
+.single-door.door-locked::before,
+.single-door.door-locked::after {
+    display: none;
+}
+
 .single-door h2,
 .single-door p {
     color: inherit;

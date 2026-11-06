@@ -1,4 +1,4 @@
-const doors = document.querySelectorAll(".single-door");
+const doors = document.querySelectorAll("a.single-door[href]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const redirectMessage = document.querySelector("[data-redirect-url]");

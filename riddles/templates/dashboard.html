@@ -8,15 +8,22 @@
 
   
   <section class="door-section">
-    {% for door in doors %}
+    {% for entry in doors %}
     <article>
-      <a class="single-door" href="{% url 'riddle' slug=door.slug %}">
-        {% if door.solved %}
-          <p>{{ door.loot }}</p>
+      {% if entry.is_accessible %}
+      <a class="single-door" href="{% url 'riddle' slug=entry.door.slug %}">
+        {% if entry.progress.solved %}
+          <p>{{ entry.door.loot }}</p>
         {% else %}
-          <h2>{{ door.title }}</h2>
+          <h2>{{ entry.door.title }}</h2>
         {% endif %}
       </a>
+      {% else %}
+      <div class="single-door door-locked" aria-label="Tür {{ entry.door.number }} ist noch gesperrt" aria-disabled="true">
+        <h2>{{ entry.door.number }}</h2>
+        <p>Gesperrt</p>
+      </div>
+      {% endif %}
     </article>
   {% endfor %}
   </section>

@@ -20,7 +20,7 @@
     
     
 
-    {% if door.solved %}
+    {% if progress.solved %}
       {% if messages %}
         <ul class="messages" data-redirect-url="{% url 'dashboard' %}" data-redirect-delay="2000">
           {% for message in messages %}
@@ -28,7 +28,7 @@
           {% endfor %}
         </ul>
       {% endif %}
-      <p class="riddle-text">Gelöst: <br> {{ door.solution }} <br> ({{ door.solved_at}})</p>
+      <p class="riddle-text">Gelöst: <br> {{ door.solution }} <br> ({{ progress.solved_at}})</p>
     {% else %}
      
       {% if messages %}
@@ -38,8 +38,8 @@
           {% endfor %}
         </ul>
       {% endif %}
-       {% if door.attempts > 0 %}
-        <p class="attempts">Versuche: {{ door.attempts }}</p>
+       {% if progress.attempts > 0 %}
+        <p class="attempts">Versuche: {{ progress.attempts }}</p>
       {% endif %}
       </section>
       <form class="riddle-form" method="post">
