@@ -411,6 +411,51 @@ header{
     
 }
 
+/* Desktop Styles */
+
+@media (min-width: 768px) {
+    main {
+        width: 100%;
+        max-width: 900px;
+    }
+
+    .door-section {
+        gap: 16px;
+    }
+
+    .single-door {
+        width: 140px;
+        height: 140px;
+    }
+
+    .single-door h2 {
+        font-size: 2.8rem;
+    }
+
+    .single-door p {
+        font-size: 1.2rem;
+    }
+
+    .riddle {
+        max-width: 640px;
+        margin-inline: auto;
+
+        img {
+            width: 320px;
+        }
+    }
+
+    .riddle-box {
+        max-width: 640px;
+        margin-inline: auto;
+    }
+
+    .login-form {
+        max-width: 480px;
+        margin-inline: auto;
+    }
+}
+
 .helptext {
     font-size: 1rem;
     margin-left: 1rem;
