@@ -28,6 +28,21 @@ python manage.py runserver
 
 The project uses SQLite, configured in `core/settings.py`.
 
+## Android app installation
+
+Riddly includes a web app manifest for installation through Chrome on Android.
+The installed app opens the dashboard and redirects unauthenticated users to
+the login page. It requires an internet connection; it does not cache pages or
+save answers offline.
+
+For testing on a phone, deploy the app at the root of an HTTPS address
+reachable from the phone and serve the collected static files from the same
+origin, including `manifest.webmanifest` and its icons. Serve the manifest as
+`application/manifest+json` or `application/json`. Then open the app in Chrome
+and use the browser's install or "Add to Home screen" option. Availability and
+wording depend on the browser. The current app icons are provisional and
+derived from the existing favicon.
+
 ## Usage
 
 Open `http://127.0.0.1:8000/` to log in. Accounts are managed in Django Admin; public registration is not available. After logging in, open `http://127.0.0.1:8000/dashboard/` to see the shared calendar.

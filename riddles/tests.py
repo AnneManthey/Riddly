@@ -1,11 +1,52 @@
 from datetime import date
+import json
+from pathlib import Path
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.contrib.staticfiles import finders
+from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
+from PIL import Image
 
 from .models import CalendarSettings, Door, UserDoorProgress
+
+
+class PwaTests(SimpleTestCase):
+    def test_login_page_links_to_manifest(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertContains(response, 'rel="manifest" href="/static/manifest.webmanifest"')
+
+    def test_manifest_and_icons(self):
+        manifest_path = finders.find('manifest.webmanifest')
+        self.assertIsNotNone(manifest_path)
+        manifest = json.loads(Path(manifest_path).read_text(encoding='utf-8'))
+
+        self.assertEqual(manifest['name'], 'Riddly')
+        self.assertEqual(manifest['start_url'], reverse('dashboard'))
+        self.assertEqual(manifest['scope'], '/')
+        self.assertEqual(manifest['display'], 'standalone')
+        self.assertEqual(
+            {icon['sizes'] for icon in manifest['icons']},
+            {'192x192', '512x512'},
+        )
+        for icon in manifest['icons']:
+            with self.subTest(icon=icon['src']):
+                self.assertEqual(icon['type'], 'image/png')
+                icon_path = finders.find(icon['src'])
+                self.assertIsNotNone(icon_path)
+                with Image.open(icon_path) as image:
+                    self.assertEqual(image.format, 'PNG')
+                    self.assertEqual(
+                        image.size,
+                        tuple(int(size) for size in icon['sizes'].split('x')),
+                    )
+
+    def test_dashboard_redirects_unauthenticated_users_to_login(self):
+        response = self.client.get(reverse('dashboard'))
+
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('dashboard')}")
 
 
 class SharedCalendarTests(TestCase):
