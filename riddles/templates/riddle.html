@@ -15,6 +15,9 @@
     {% endif %}
     <section class="riddle-box">
       <p class="riddle-text">{{ door.riddle }}</p>
+      {% if door.link %}
+        <p class="riddle-text"><a href="{{ door.link }}" target="_blank" rel="noopener noreferrer">{{ door.link }}</a></p>
+      {% endif %}
       <br>
       <p class="riddle-text">{{ door.question }}</p>
     

@@ -62,6 +62,16 @@ class SharedCalendarTests(TestCase):
         self.assertFalse(other_progress.solved)
         self.assertEqual(other_progress.attempts, 0)
 
+    def test_login_redirects_to_dashboard(self):
+        response = self.client.post(
+            reverse('login'),
+            {'username': self.user.username, 'password': 'test-password'},
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse('dashboard'))
+        self.assertTrue(response.context['user'].is_authenticated)
+
     def test_wrong_answer_attempt_is_private_to_user(self):
         self.client.force_login(self.user)
         self.client.post(
@@ -76,6 +86,25 @@ class SharedCalendarTests(TestCase):
         self.assertFalse(
             UserDoorProgress.objects.filter(user=self.other_user, door=self.door).exists()
         )
+
+    def test_riddle_page_shows_optional_link(self):
+        self.client.force_login(self.user)
+        url = 'https://example.com/more'
+        self.door.link = url
+        self.door.save()
+
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+
+        self.assertContains(
+            response,
+            f'<a href="{url}" target="_blank" rel="noopener noreferrer">{url}</a>',
+        )
+
+        self.door.link = ''
+        self.door.save()
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+
+        self.assertNotContains(response, url)
 
     def test_new_shared_doors_receive_unique_slugs(self):
         second_door = Door.objects.create(
