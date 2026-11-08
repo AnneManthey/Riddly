@@ -34,6 +34,7 @@ class Door(models.Model):
             slug = base_slug[:100]
             suffix = 2
             while Door.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                # Keep generated slugs unique when doors have the same title.
                 suffix_text = f'-{suffix}'
                 slug = f'{base_slug[:100 - len(suffix_text)]}{suffix_text}'
                 suffix += 1
@@ -84,6 +85,7 @@ class CalendarSettings(models.Model):
         verbose_name_plural = 'Kalendereinstellungen'
 
     def save(self, *args, **kwargs):
+        # This model represents one global calendar configuration.
         self.pk = 1
         super().save(*args, **kwargs)
 

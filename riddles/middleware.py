@@ -12,6 +12,7 @@ class RememberMeSessionMiddleware:
             request.user.is_authenticated
             and request.session.get(REMEMBER_ME_SESSION_KEY)
         ):
+            # Refresh the expiry on activity to make the 30-day lifetime sliding.
             request.session.set_expiry(REMEMBER_ME_SESSION_AGE)
             request.session.modified = True
         return response

@@ -18,6 +18,7 @@ def login(request):
                 request.session[REMEMBER_ME_SESSION_KEY] = True
                 request.session.set_expiry(REMEMBER_ME_SESSION_AGE)
             else:
+                # Without opt-in, discard the session cookie when the browser closes.
                 request.session.set_expiry(0)
             return redirect("dashboard")
     else:
@@ -30,6 +31,7 @@ def _get_user_door_progress(user):
     existing_door_ids = set(
         UserDoorProgress.objects.filter(user=user).values_list('door_id', flat=True)
     )
+    # Ignore conflicts so parallel requests can safely initialize the same progress rows.
     UserDoorProgress.objects.bulk_create(
         [
             UserDoorProgress(user=user, door_id=door_id)
@@ -41,6 +43,7 @@ def _get_user_door_progress(user):
 
 
 def _door_is_accessible(door, progress, date_restrictions_enabled, today=None):
+    # Solved doors stay accessible even when date restrictions are enabled.
     if progress.solved or not date_restrictions_enabled:
         return True
 
@@ -85,6 +88,7 @@ def riddle(request, slug):
     if request.method == "POST" and not progress.solved:
         answer = request.POST.get("answer", "").strip().lower()
         progress.attempts += 1
+        # Accept the solution phrase anywhere in the normalized response.
         if answer and door.solution.strip().lower() in answer:
             progress.solved = True
             progress.solved_at = timezone.now()
