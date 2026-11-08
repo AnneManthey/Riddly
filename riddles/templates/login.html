@@ -11,10 +11,13 @@
   <form class="login-form" action="" method="post">
     {% csrf_token %}
     {{form}}
+    <label class="remember-me">
+      <input type="checkbox" name="remember_me" />
+      Angemeldet bleiben
+    </label>
     <button class="login-btn">Login</button>
   </form>
 
 
 {% endblock %}
-
 

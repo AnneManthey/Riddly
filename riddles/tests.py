@@ -9,6 +9,7 @@ from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 from PIL import Image
 
+from .middleware import REMEMBER_ME_SESSION_AGE
 from .models import CalendarSettings, Door, UserDoorProgress
 
 
@@ -17,6 +18,11 @@ class PwaTests(SimpleTestCase):
         response = self.client.get(reverse('login'))
 
         self.assertContains(response, 'rel="manifest" href="/static/manifest.webmanifest"')
+
+    def test_login_page_has_unchecked_remember_me_option(self):
+        response = self.client.get(reverse('login'))
+
+        self.assertContains(response, '<input type="checkbox" name="remember_me" />')
 
     def test_manifest_and_icons(self):
         manifest_path = finders.find('manifest.webmanifest')
@@ -112,6 +118,54 @@ class SharedCalendarTests(TestCase):
 
         self.assertRedirects(response, reverse('dashboard'))
         self.assertTrue(response.context['user'].is_authenticated)
+
+    def test_login_without_remember_me_uses_browser_session(self):
+        response = self.client.post(
+            reverse('login'),
+            {'username': self.user.username, 'password': 'test-password'},
+        )
+
+        self.assertRedirects(response, reverse('dashboard'))
+        self.assertTrue(self.client.session.get_expire_at_browser_close())
+
+    def test_remember_me_uses_30_day_sliding_session(self):
+        response = self.client.post(
+            reverse('login'),
+            {
+                'username': self.user.username,
+                'password': 'test-password',
+                'remember_me': 'on',
+            },
+        )
+
+        self.assertRedirects(response, reverse('dashboard'))
+        session = self.client.session
+        self.assertFalse(session.get_expire_at_browser_close())
+        self.assertAlmostEqual(
+            session.get_expiry_age(),
+            REMEMBER_ME_SESSION_AGE,
+            delta=2,
+        )
+
+        session.set_expiry(REMEMBER_ME_SESSION_AGE - 86400)
+        session.save()
+        response = self.client.get(reverse('login'))
+        self.assertEqual(
+            response.cookies['sessionid']['max-age'],
+            REMEMBER_ME_SESSION_AGE,
+        )
+
+    def test_logout_ends_the_current_session(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(reverse('logout'))
+
+        self.assertRedirects(response, reverse('login'))
+        response = self.client.get(reverse('dashboard'))
+        self.assertRedirects(
+            response,
+            f"{reverse('login')}?next={reverse('dashboard')}",
+        )
 
     def test_wrong_answer_attempt_is_private_to_user(self):
         self.client.force_login(self.user)

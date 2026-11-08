@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from .middleware import REMEMBER_ME_SESSION_AGE, REMEMBER_ME_SESSION_KEY
 
 
 def login(request):
@@ -13,6 +14,11 @@ def login(request):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
+            if request.POST.get("remember_me"):
+                request.session[REMEMBER_ME_SESSION_KEY] = True
+                request.session.set_expiry(REMEMBER_ME_SESSION_AGE)
+            else:
+                request.session.set_expiry(0)
             return redirect("dashboard")
     else:
         form = AuthenticationForm()

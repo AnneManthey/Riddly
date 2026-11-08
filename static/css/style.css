@@ -397,6 +397,22 @@ header{
     font-size: 1.2rem;
 }
 
+.login-form .remember-me {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.login-form .remember-me input {
+    width: auto;
+    padding: 0;
+    background: none;
+    border: initial;
+    border-radius: initial;
+}
+
 .login-btn {
     width: 100px;
     border-radius: 2rem;
