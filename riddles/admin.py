@@ -1,9 +1,15 @@
 from django.contrib import admin
-from .models import CalendarSettings, Door, UserDoorProgress
+from .models import CalendarSettings, Door, DoorImage, UserDoorProgress
+
+
+class DoorImageInline(admin.TabularInline):
+    model = DoorImage
+    extra = 1
 
 class DoorAdmin(admin.ModelAdmin):
     list_display = ('number', 'title', 'slug')
     search_fields = ('title', 'riddle')
+    inlines = [DoorImageInline]
 
 
 @admin.register(UserDoorProgress)

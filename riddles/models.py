@@ -8,15 +8,12 @@ from django.utils.text import slugify
 class Door(models.Model):
     """A door with riddle in the advent calendar app."""
     number = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(24)])
-    image = models.ImageField(upload_to='img/', blank=True )
     title = models.CharField(max_length=100)
     riddle = models.TextField()
     link = models.URLField(max_length=500, blank=True)
-    question = models.CharField(max_length=100, default="Antwort:")
+    question = models.CharField(max_length=200, default="Antwort:")
     solution = models.CharField(max_length=100)
     loot = models.CharField(max_length=50)
-    css = models.CharField(max_length=50, blank=True)
-    js = models.CharField(max_length=50, blank=True)
     slug = models.SlugField(max_length=100, null=True, blank=True, unique=True)
 
     class Meta:
@@ -44,6 +41,14 @@ class Door(models.Model):
     def __str__(self):
         """Return the title and door number."""
         return f"{self.title} (Door number {self.number})"
+
+
+class DoorImage(models.Model):
+    door = models.ForeignKey(Door, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='img/')
+
+    class Meta:
+        ordering = ['pk']
 
 
 class UserDoorProgress(models.Model):

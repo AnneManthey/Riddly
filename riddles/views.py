@@ -10,6 +10,9 @@ from .middleware import REMEMBER_ME_SESSION_AGE, REMEMBER_ME_SESSION_KEY
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect("dashboard")
+
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():

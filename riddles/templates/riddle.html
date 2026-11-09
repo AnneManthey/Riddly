@@ -10,16 +10,16 @@
   {% comment %} <h1>Rätsel {{ door.title }}</h1> {% endcomment %}
 
   <section class="riddle">
-    {% if door.image %}
-      <img src="{{ door.image.url }}" alt="" />
-    {% endif %}
+    {% for door_image in door.images.all %}
+      <img src="{{ door_image.image.url }}" alt="{{ door.title }}" />
+    {% endfor %}
     <section class="riddle-box">
       <p class="riddle-text">{{ door.riddle }}</p>
       {% if door.link %}
         <p class="riddle-text"><a href="{{ door.link }}" target="_blank" rel="noopener noreferrer">Zum Nonogram</a></p>
       {% endif %}
       <br>
-      <p class="riddle-text">{{ door.question }}</p>
+      <p class="riddle-question" class="riddle-text">{{ door.question }}</p>
     
     
 
@@ -44,12 +44,13 @@
        {% if progress.attempts > 0 %}
         <p class="attempts">Versuche: {{ progress.attempts }}</p>
       {% endif %}
-      </section>
+      
       <form class="riddle-form" method="post">
         {% csrf_token %}
         <input type="text" id="answer" name="answer" autocomplete="off" />
         <button class="absenden-btn">Absenden</button>
       </form>
     {% endif %}
+    </section>
   </section>
 {% endblock %}

@@ -10,7 +10,7 @@ from django.urls import reverse
 from PIL import Image
 
 from .middleware import REMEMBER_ME_SESSION_AGE
-from .models import CalendarSettings, Door, UserDoorProgress
+from .models import CalendarSettings, Door, DoorImage, UserDoorProgress
 
 
 class PwaTests(SimpleTestCase):
@@ -146,6 +146,15 @@ class SharedCalendarTests(TestCase):
         self.assertRedirects(response, reverse('dashboard'))
         self.assertTrue(response.context['user'].is_authenticated)
 
+    def test_authenticated_user_is_redirected_from_login_to_dashboard(self):
+        self.client.force_login(self.user)
+
+        for method in ('get', 'post'):
+            with self.subTest(method=method):
+                response = getattr(self.client, method)(reverse('login'))
+
+                self.assertRedirects(response, reverse('dashboard'))
+
     def test_login_without_remember_me_uses_browser_session(self):
         response = self.client.post(
             reverse('login'),
@@ -227,6 +236,20 @@ class SharedCalendarTests(TestCase):
         response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
 
         self.assertNotContains(response, url)
+
+    def test_riddle_page_shows_door_images_in_creation_order(self):
+        self.client.force_login(self.user)
+        DoorImage.objects.create(door=self.door, image='img/first.png')
+        DoorImage.objects.create(door=self.door, image='img/second.png')
+
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+        content = response.content.decode()
+
+        first_image = '/media/img/first.png'
+        second_image = '/media/img/second.png'
+        self.assertContains(response, first_image)
+        self.assertContains(response, second_image)
+        self.assertLess(content.index(first_image), content.index(second_image))
 
     def test_new_shared_doors_receive_unique_slugs(self):
         second_door = Door.objects.create(
