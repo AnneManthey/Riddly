@@ -12,7 +12,7 @@
     {% csrf_token %}
     {{form}}
     <label class="remember-me">
-      <input type="checkbox" name="remember_me" />
+      <input type="checkbox" name="remember_me"{% if remember_me_checked %} checked{% endif %} />
       Angemeldet bleiben
     </label>
     <button class="login-btn">Login</button>
@@ -20,4 +20,3 @@
 
 
 {% endblock %}
-

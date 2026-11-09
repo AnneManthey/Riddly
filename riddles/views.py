@@ -23,7 +23,14 @@ def login(request):
             return redirect("dashboard")
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {"form": form})
+    remember_me_checked = (
+        request.method != "POST" or "remember_me" in request.POST
+    )
+    return render(
+        request,
+        'login.html',
+        {"form": form, "remember_me_checked": remember_me_checked},
+    )
 
 
 def _get_user_door_progress(user):

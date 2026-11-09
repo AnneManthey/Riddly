@@ -19,10 +19,13 @@ class PwaTests(SimpleTestCase):
 
         self.assertContains(response, 'rel="manifest" href="/static/manifest.webmanifest"')
 
-    def test_login_page_has_unchecked_remember_me_option(self):
+    def test_login_page_has_checked_remember_me_option(self):
         response = self.client.get(reverse('login'))
 
-        self.assertContains(response, '<input type="checkbox" name="remember_me" />')
+        self.assertContains(
+            response,
+            '<input type="checkbox" name="remember_me" checked />',
+        )
 
     def test_manifest_and_icons(self):
         manifest_path = finders.find('manifest.webmanifest')
@@ -53,6 +56,30 @@ class PwaTests(SimpleTestCase):
         response = self.client.get(reverse('dashboard'))
 
         self.assertRedirects(response, f"{reverse('login')}?next={reverse('dashboard')}")
+
+
+class RememberMeLoginTests(TestCase):
+    def test_failed_login_preserves_checked_remember_me_option(self):
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'invalid', 'password': 'invalid', 'remember_me': 'on'},
+        )
+
+        self.assertContains(
+            response,
+            '<input type="checkbox" name="remember_me" checked />',
+        )
+
+    def test_failed_login_preserves_unchecked_remember_me_option(self):
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'invalid', 'password': 'invalid'},
+        )
+
+        self.assertContains(
+            response,
+            '<input type="checkbox" name="remember_me" />',
+        )
 
 
 class SharedCalendarTests(TestCase):
@@ -192,7 +219,7 @@ class SharedCalendarTests(TestCase):
 
         self.assertContains(
             response,
-            f'<a href="{url}" target="_blank" rel="noopener noreferrer">{url}</a>',
+            f'<a href="{url}" target="_blank" rel="noopener noreferrer">Zum Nonogram</a>',
         )
 
         self.door.link = ''
