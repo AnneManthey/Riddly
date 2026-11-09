@@ -11,7 +11,7 @@ class Door(models.Model):
     title = models.CharField(max_length=100)
     riddle = models.TextField()
     link = models.URLField(max_length=500, blank=True)
-    question = models.CharField(max_length=200, default="Antwort:")
+    question = models.CharField(max_length=400, default="Antwort:")
     solution = models.CharField(max_length=100)
     loot = models.CharField(max_length=50)
     slug = models.SlugField(max_length=100, null=True, blank=True, unique=True)
