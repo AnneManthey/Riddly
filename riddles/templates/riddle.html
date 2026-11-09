@@ -14,43 +14,44 @@
       <img src="{{ door_image.image.url }}" alt="{{ door.title }}" />
     {% endfor %}
     <section class="riddle-box">
-      <p class="riddle-text">{{ door.riddle }}</p>
-      {% if door.link %}
-        <p class="riddle-text"><a href="{{ door.link }}" target="_blank" rel="noopener noreferrer">Zum Nonogram</a></p>
-      {% endif %}
-      <br>
-      <p class="riddle-question" class="riddle-text">{{ door.question }}</p>
-    
-    
+      <div class="riddle-content">
+        <p class="riddle-text">{{ door.riddle }}</p>
+        {% if door.link %}
+          <p class="riddle-text"><a href="{{ door.link }}" target="_blank" rel="noopener noreferrer">Zum Nonogram</a></p>
+        {% endif %}
+      </div>
 
-    {% if progress.solved %}
-      {% if messages %}
-        <ul class="messages" data-redirect-url="{% url 'dashboard' %}" data-redirect-delay="2000">
-          {% for message in messages %}
-            <li class="message {{ message.tags }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-      <p class="riddle-text">Gelöst: <br> {{ door.solution }} <br> ({{ progress.solved_at}})</p>
-    {% else %}
-     
-      {% if messages %}
-        <ul class="messages">
-          {% for message in messages %}
-            <li class="message {{ message.tags }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-       {% if progress.attempts > 0 %}
-        <p class="attempts">Versuche: {{ progress.attempts }}</p>
-      {% endif %}
-      
-      <form class="riddle-form" method="post">
-        {% csrf_token %}
-        <input type="text" id="answer" name="answer" autocomplete="off" />
-        <button class="absenden-btn">Absenden</button>
-      </form>
-    {% endif %}
+      <div class="riddle-bottom">
+        <p class="riddle-question">{{ door.question }}</p>
+
+        {% if progress.solved %}
+          {% if messages %}
+            <ul class="messages" data-redirect-url="{% url 'dashboard' %}" data-redirect-delay="2000">
+              {% for message in messages %}
+                <li class="message {{ message.tags }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <p class="riddle-text">Gelöst: <br> {{ door.solution }} <br> ({{ progress.solved_at}})</p>
+        {% else %}
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li class="message {{ message.tags }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {% if progress.attempts > 0 %}
+            <p class="attempts">Versuche: {{ progress.attempts }}</p>
+          {% endif %}
+
+          <form class="riddle-form" method="post">
+            {% csrf_token %}
+            <input type="text" id="answer" name="answer" autocomplete="off" />
+            <button class="absenden-btn">Absenden</button>
+          </form>
+        {% endif %}
+      </div>
     </section>
   </section>
 {% endblock %}
