@@ -65,14 +65,19 @@
           {% if hints %}
             {{ hints|json_script:"riddle-hints" }}
             <dialog class="hint-dialog" id="hint-dialog" aria-labelledby="hint-dialog-title">
-              <h2 id="hint-dialog-title">Hinweis</h2>
+              <button
+                class="hint-close"
+                type="button"
+                aria-label="Hinweisdialog schließen"
+                data-hint-close
+              >&times;</button>
+              <h2 id="hint-dialog-title">Tipp</h2>
               <p class="hint-counter" id="hint-counter" aria-live="polite"></p>
-              <p class="hint-text" id="hint-text" aria-live="polite"></p>
+              <div class="hint-list" id="hint-list" aria-live="polite"></div>
               <div class="hint-dialog-actions">
                 {% if hints|length > 1 %}
-                  <button class="hint-next" id="next-hint" type="button">Weiterer Hinweis</button>
+                  <button class="hint-next" id="next-hint" type="button">Mehr</button>
                 {% endif %}
-                <button class="hint-close" type="button" data-hint-close>Schließen</button>
               </div>
             </dialog>
           {% endif %}

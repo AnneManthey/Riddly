@@ -85,15 +85,20 @@ const hintsElement = document.getElementById("riddle-hints");
 
 if (hintDialog && hintTrigger && hintsElement) {
   const hints = JSON.parse(hintsElement.textContent);
-  const hintText = document.getElementById("hint-text");
+  const hintList = document.getElementById("hint-list");
   const hintCounter = document.getElementById("hint-counter");
   const nextHintButton = document.getElementById("next-hint");
   const closeHintButton = hintDialog.querySelector("[data-hint-close]");
   let currentHintIndex = 0;
 
   const updateHint = () => {
-    hintText.textContent = hints[currentHintIndex];
-    hintCounter.textContent = `Hinweis ${currentHintIndex + 1} von ${hints.length}`;
+    hintList.textContent = "";
+    for (let index = 0; index <= currentHintIndex; index += 1) {
+      const hint = document.createElement("p");
+      hint.textContent = hints[index];
+      hintList.appendChild(hint);
+    }
+    hintCounter.textContent = `${currentHintIndex + 1} von ${hints.length}`;
     if (nextHintButton) {
       nextHintButton.hidden = currentHintIndex === hints.length - 1;
     }
