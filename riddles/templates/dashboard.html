@@ -13,7 +13,7 @@
       {% if entry.is_accessible %}
       <a class="single-door" href="{% url 'riddle' slug=entry.door.slug %}">
         {% if entry.progress.solved %}
-          <p>{{ entry.door.loot }}</p>
+          <p class="p-loot">{{ entry.door.loot }}</p>
         {% else %}
           <h2>{{ entry.door.title }}</h2>
         {% endif %}

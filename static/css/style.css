@@ -88,6 +88,8 @@ header{
     gap: 10px;
 }
 
+
+
 /* Door Button Styles */
 
 .single-door {
@@ -143,6 +145,12 @@ header{
     line-height: 1.1;
     overflow-wrap: anywhere;
     margin: 0;
+}
+
+.single-door .p-loot{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgb(210, 169, 57);
 }
 
 .single-door h2 {

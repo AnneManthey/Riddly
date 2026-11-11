@@ -103,7 +103,7 @@ def riddle(request, slug):
             progress.solved = True
             progress.solved_at = timezone.now()
             progress.save()
-            messages.success(request, "Yay!.")
+            messages.success(request, "Yay!")
             return redirect("riddle", slug=slug)
         progress.save()
         messages.error(request, "Nicht ganz. Nächster Versuch!")
