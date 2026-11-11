@@ -108,7 +108,12 @@ def riddle(request, slug):
         progress.save()
         messages.error(request, "Nicht ganz. Nächster Versuch!")
         return redirect("riddle", slug=slug)
-    return render(request, 'riddle.html', {'door': door, 'progress': progress})
+    hints = [hint.strip() for hint in door.hints.splitlines() if hint.strip()]
+    return render(
+        request,
+        'riddle.html',
+        {'door': door, 'progress': progress, 'hints': hints},
+    )
 
 
 def logout(request):

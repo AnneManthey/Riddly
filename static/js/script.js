@@ -78,3 +78,65 @@ doors.forEach((door) => {
     door.classList.add("animate");
   });
 });
+
+const hintDialog = document.getElementById("hint-dialog");
+const hintTrigger = document.querySelector("[data-hint-trigger]");
+const hintsElement = document.getElementById("riddle-hints");
+
+if (hintDialog && hintTrigger && hintsElement) {
+  const hints = JSON.parse(hintsElement.textContent);
+  const hintText = document.getElementById("hint-text");
+  const hintCounter = document.getElementById("hint-counter");
+  const nextHintButton = document.getElementById("next-hint");
+  const closeHintButton = hintDialog.querySelector("[data-hint-close]");
+  let currentHintIndex = 0;
+
+  const updateHint = () => {
+    hintText.textContent = hints[currentHintIndex];
+    hintCounter.textContent = `Hinweis ${currentHintIndex + 1} von ${hints.length}`;
+    if (nextHintButton) {
+      nextHintButton.hidden = currentHintIndex === hints.length - 1;
+    }
+  };
+
+  hintTrigger.addEventListener("click", () => {
+    updateHint();
+    if (typeof hintDialog.showModal === "function") {
+      hintDialog.showModal();
+    } else {
+      hintDialog.setAttribute("open", "");
+      hintDialog.classList.add("hint-dialog-fallback");
+      closeHintButton.focus();
+    }
+  });
+
+  if (nextHintButton) {
+    nextHintButton.addEventListener("click", () => {
+      if (currentHintIndex < hints.length - 1) {
+        currentHintIndex += 1;
+        updateHint();
+      }
+    });
+  }
+
+  const closeHintDialog = () => {
+    if (typeof hintDialog.close === "function") {
+      hintDialog.close();
+    } else {
+      hintDialog.removeAttribute("open");
+      hintDialog.classList.remove("hint-dialog-fallback");
+      hintTrigger.focus();
+    }
+  };
+
+  closeHintButton.addEventListener("click", closeHintDialog);
+  hintDialog.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      typeof hintDialog.showModal !== "function"
+    ) {
+      event.preventDefault();
+      closeHintDialog();
+    }
+  });
+}

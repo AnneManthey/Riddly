@@ -12,6 +12,11 @@ class Door(models.Model):
     riddle = models.TextField()
     link = models.URLField(max_length=500, blank=True)
     question = models.CharField(max_length=400, default="Antwort:")
+    hints = models.TextField(
+        blank=True,
+        default="",
+        help_text="Gib pro Zeile einen Hinweis ein.",
+    )
     solution = models.CharField(max_length=100)
     loot = models.CharField(max_length=50)
     slug = models.SlugField(max_length=100, null=True, blank=True, unique=True)

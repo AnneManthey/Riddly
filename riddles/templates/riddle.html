@@ -47,9 +47,35 @@
 
           <form class="riddle-form" method="post">
             {% csrf_token %}
-            <input type="text" id="answer" name="answer" autocomplete="off" />
+            <div class="answer-input-row">
+              <input type="text" id="answer" name="answer" autocomplete="off" />
+              {% if hints %}
+                <button
+                  class="hint-trigger"
+                  type="button"
+                  aria-label="Hinweise anzeigen"
+                  aria-haspopup="dialog"
+                  aria-controls="hint-dialog"
+                  data-hint-trigger
+                >?</button>
+              {% endif %}
+            </div>
             <button class="absenden-btn">Absenden</button>
           </form>
+          {% if hints %}
+            {{ hints|json_script:"riddle-hints" }}
+            <dialog class="hint-dialog" id="hint-dialog" aria-labelledby="hint-dialog-title">
+              <h2 id="hint-dialog-title">Hinweis</h2>
+              <p class="hint-counter" id="hint-counter" aria-live="polite"></p>
+              <p class="hint-text" id="hint-text" aria-live="polite"></p>
+              <div class="hint-dialog-actions">
+                {% if hints|length > 1 %}
+                  <button class="hint-next" id="next-hint" type="button">Weiterer Hinweis</button>
+                {% endif %}
+                <button class="hint-close" type="button" data-hint-close>Schließen</button>
+              </div>
+            </dialog>
+          {% endif %}
         {% endif %}
       </div>
     </section>

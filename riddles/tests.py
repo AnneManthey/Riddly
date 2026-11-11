@@ -237,6 +237,39 @@ class SharedCalendarTests(TestCase):
 
         self.assertNotContains(response, url)
 
+    def test_riddle_page_shows_hint_controls_for_nonempty_hints(self):
+        self.client.force_login(self.user)
+        self.door.hints = 'First hint\n\n  Second hint  \n'
+        self.door.save()
+
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+
+        self.assertContains(response, 'data-hint-trigger')
+        self.assertContains(response, '<dialog')
+        self.assertContains(response, '["First hint", "Second hint"]')
+        self.assertContains(response, 'id="hint-counter"')
+        self.assertContains(response, 'Weiterer Hinweis')
+
+    def test_riddle_page_hides_hint_controls_without_hints(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+
+        self.assertNotContains(response, 'data-hint-trigger')
+        self.assertNotContains(response, '<dialog')
+        self.assertNotContains(response, 'Weiterer Hinweis')
+
+    def test_riddle_page_omits_next_button_for_one_hint(self):
+        self.client.force_login(self.user)
+        self.door.hints = 'Only hint'
+        self.door.save()
+
+        response = self.client.get(reverse('riddle', kwargs={'slug': self.door.slug}))
+
+        self.assertContains(response, 'data-hint-trigger')
+        self.assertContains(response, '["Only hint"]')
+        self.assertNotContains(response, 'Weiterer Hinweis')
+
     def test_riddle_page_shows_door_images_in_creation_order(self):
         self.client.force_login(self.user)
         DoorImage.objects.create(door=self.door, image='img/first.png')
