@@ -19,9 +19,8 @@
         {% endif %}
       </a>
       {% else %}
-      <div class="single-door door-locked" aria-label="Tür {{ entry.door.number }} ist noch gesperrt" aria-disabled="true">
+      <div class="single-door door-locked" aria-disabled="true">
         <h2>{{ entry.door.number }}</h2>
-        <p>Gesperrt</p>
       </div>
       {% endif %}
     </article>

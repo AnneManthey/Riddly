@@ -27,7 +27,15 @@ class UserDoorProgressAdmin(admin.ModelAdmin):
 
 @admin.register(CalendarSettings)
 class CalendarSettingsAdmin(admin.ModelAdmin):
-    list_display = ('date_restrictions_enabled',)
+    list_display = ('date_restriction_status',)
+    fields = ('date_restriction_status', 'date_restrictions_enabled')
+    readonly_fields = ('date_restriction_status',)
+
+    @admin.display(description='Status der Datumssperre')
+    def date_restriction_status(self, obj):
+        if obj is None:
+            return 'Noch nicht gespeichert'
+        return 'Aktiv' if obj.date_restrictions_enabled else 'Inaktiv'
 
     def has_add_permission(self, request):
         return not CalendarSettings.objects.exists()

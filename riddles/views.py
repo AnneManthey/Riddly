@@ -58,7 +58,7 @@ def _door_is_accessible(door, progress, date_restrictions_enabled, today=None):
         return True
 
     today = today or timezone.localdate()
-    return today.year >= 2026 and today.month == 12 and today.day >= door.number
+    return today.month == 12 and today.day >= door.number
 
 
 @login_required(login_url="login")

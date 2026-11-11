@@ -296,7 +296,7 @@ class SharedCalendarTests(TestCase):
 
         self.assertEqual(second_door.slug, 'first-riddle-2')
 
-    def test_date_restrictions_unlock_doors_by_number_and_relock_unsolved_doors(self):
+    def test_date_restrictions_lock_outside_december_and_repeat_each_year(self):
         self.calendar_settings.date_restrictions_enabled = True
         self.calendar_settings.save()
         second_door = Door.objects.create(
@@ -308,21 +308,16 @@ class SharedCalendarTests(TestCase):
             loot='Another prize',
             slug='second-riddle',
         )
+        twenty_fourth_door = Door.objects.create(
+            number=24,
+            title='Twenty-fourth riddle',
+            riddle='Another question?',
+            question='Answer:',
+            solution='yes',
+            loot='Another prize',
+            slug='twenty-fourth-riddle',
+        )
         self.client.force_login(self.user)
-
-        with patch('riddles.views.timezone.localdate', return_value=date(2025, 12, 1)):
-            response = self.client.get(
-                reverse('riddle', kwargs={'slug': self.door.slug}),
-            )
-        self.assertRedirects(response, reverse('dashboard'))
-
-        with patch('riddles.views.timezone.localdate', return_value=date(2026, 11, 30)):
-            response = self.client.get(
-                reverse('riddle', kwargs={'slug': self.door.slug}),
-                follow=True,
-            )
-        self.assertEqual(response.redirect_chain, [(reverse('dashboard'), 302)])
-        self.assertContains(response, 'Diese Tür ist noch gesperrt.')
 
         with patch('riddles.views.timezone.localdate', return_value=date(2026, 12, 1)):
             response = self.client.get(
@@ -336,9 +331,37 @@ class SharedCalendarTests(TestCase):
             )
         self.assertRedirects(response, reverse('dashboard'))
 
-        with patch('riddles.views.timezone.localdate', return_value=date(2027, 1, 1)):
+        with patch('riddles.views.timezone.localdate', return_value=date(2026, 12, 2)):
             response = self.client.get(
-                reverse('riddle', kwargs={'slug': self.door.slug}),
+                reverse('riddle', kwargs={'slug': second_door.slug}),
+            )
+        self.assertEqual(response.status_code, 200)
+
+        with patch('riddles.views.timezone.localdate', return_value=date(2026, 12, 23)):
+            response = self.client.get(
+                reverse('riddle', kwargs={'slug': twenty_fourth_door.slug}),
+            )
+        self.assertRedirects(response, reverse('dashboard'))
+
+        with patch('riddles.views.timezone.localdate', return_value=date(2026, 12, 24)):
+            response = self.client.get(
+                reverse('riddle', kwargs={'slug': twenty_fourth_door.slug}),
+            )
+        self.assertEqual(response.status_code, 200)
+
+        for today in (date(2027, 1, 1), date(2027, 11, 11), date(2027, 11, 30)):
+            with self.subTest(today=today), patch(
+                'riddles.views.timezone.localdate',
+                return_value=today,
+            ):
+                response = self.client.get(
+                    reverse('riddle', kwargs={'slug': second_door.slug}),
+                )
+                self.assertRedirects(response, reverse('dashboard'))
+
+        with patch('riddles.views.timezone.localdate', return_value=date(2027, 12, 1)):
+            response = self.client.get(
+                reverse('riddle', kwargs={'slug': second_door.slug}),
             )
         self.assertRedirects(response, reverse('dashboard'))
 
@@ -354,14 +377,23 @@ class SharedCalendarTests(TestCase):
     def test_locked_doors_remain_visible_but_disabled(self):
         self.calendar_settings.date_restrictions_enabled = True
         self.calendar_settings.save()
+        Door.objects.create(
+            number=2,
+            title='Second riddle',
+            riddle='Another question?',
+            question='Answer:',
+            solution='yes',
+            loot='Another prize',
+            slug='second-riddle',
+        )
         self.client.force_login(self.user)
 
-        with patch('riddles.views.timezone.localdate', return_value=date(2026, 11, 30)):
+        with patch('riddles.views.timezone.localdate', return_value=date(2026, 12, 1)):
             response = self.client.get(reverse('dashboard'))
 
         self.assertContains(response, 'class="single-door door-locked"')
         self.assertContains(response, 'aria-disabled="true"')
-        self.assertContains(response, 'Gesperrt')
+        self.assertNotContains(response, 'Gesperrt')
 
     def test_disabled_date_restrictions_leave_door_open(self):
         self.calendar_settings.date_restrictions_enabled = False
@@ -374,3 +406,48 @@ class SharedCalendarTests(TestCase):
             )
 
         self.assertEqual(response.status_code, 200)
+
+
+class CalendarSettingsAdminTests(TestCase):
+    def setUp(self):
+        self.admin_user = get_user_model().objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='test-password',
+        )
+        self.calendar_settings, _ = CalendarSettings.objects.get_or_create(
+            pk=1,
+            defaults={'date_restrictions_enabled': True},
+        )
+        self.calendar_settings.date_restrictions_enabled = True
+        self.calendar_settings.save()
+        self.client.force_login(self.admin_user)
+
+    def test_calendar_settings_list_displays_explicit_status(self):
+        response = self.client.get(
+            reverse('admin:riddles_calendarsettings_changelist'),
+        )
+
+        self.assertContains(response, 'Aktiv')
+
+    def test_calendar_settings_list_displays_inactive_status(self):
+        self.calendar_settings.date_restrictions_enabled = False
+        self.calendar_settings.save()
+
+        response = self.client.get(
+            reverse('admin:riddles_calendarsettings_changelist'),
+        )
+
+        self.assertContains(response, 'Inaktiv')
+
+    def test_calendar_settings_form_displays_status_and_toggle(self):
+        response = self.client.get(
+            reverse(
+                'admin:riddles_calendarsettings_change',
+                args=[self.calendar_settings.pk],
+            ),
+        )
+
+        self.assertContains(response, 'Aktiv')
+        self.assertContains(response, 'Datumssperre aktivieren')
+        self.assertContains(response, 'checked')
