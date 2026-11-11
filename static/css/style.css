@@ -148,7 +148,7 @@ header{
 }
 
 .single-door .p-loot{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
     color: rgb(210, 169, 57);
 }
@@ -211,7 +211,6 @@ header{
 
 .single-door:active {
     transform: scale(0.9);
-    /* background-color: #e60074; */
     background-color: rgb(0, 0, 0, 0.5);
     box-shadow: 0 2px 25px rgba(255, 0, 130, 0.2);
 }
@@ -283,9 +282,6 @@ header{
     flex-direction: column;
     box-sizing: border-box;
     min-height: 360px;
-    /* background-image: url(/media/img/riddle-bg.png);
-    background-position: center;
-    background-repeat: no-repeat; */
     padding: 1rem;
     border-radius: 5px;
 
@@ -421,8 +417,7 @@ header{
     border-radius: 8px;
     color: #222;
     background-color: transparent;
-    background-image:
-        url("/media/img/riddle-bg.png");
+    background-image:url("/media/img/riddle-bg.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -465,18 +460,24 @@ header{
 .hint-counter{
     color: #555;
     font-size: 0.9rem;
+    padding-bottom: 1rem;
 }
 
 .hint-list p{
     line-height: 1.5;
     overflow-wrap: anywhere;
     font-size: 1.2rem;
-    padding-top: 1rem;
+    
 }
 
 .hint-list p + p{
-    border-top: 1px solid rgba(0,0,0,0.2);
     margin-top: 1rem;
+}
+
+.hint-list p + p::before{
+    content: "**";
+    display: block;
+    text-align: center;
 }
 
 .hint-dialog-actions{
