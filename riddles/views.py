@@ -37,19 +37,28 @@ def login(request):
 
 
 def _get_user_door_progress(user):
-    door_ids = set(Door.objects.values_list('id', flat=True))
+    ordered_door_ids = list(
+        Door.objects.order_by('number').values_list('id', flat=True)
+    )
     existing_door_ids = set(
         UserDoorProgress.objects.filter(user=user).values_list('door_id', flat=True)
     )
+    missing_progress_rows = [
+        UserDoorProgress(user=user, door_id=door_id)
+        for door_id in ordered_door_ids
+        if door_id not in existing_door_ids
+    ]
     # Ignore conflicts so parallel requests can safely initialize the same progress rows.
-    UserDoorProgress.objects.bulk_create(
-        [
-            UserDoorProgress(user=user, door_id=door_id)
-            for door_id in door_ids - existing_door_ids
-        ],
-        ignore_conflicts=True,
+    if missing_progress_rows:
+        UserDoorProgress.objects.bulk_create(
+            missing_progress_rows,
+            ignore_conflicts=True,
+        )
+    return (
+        UserDoorProgress.objects.filter(user=user)
+        .select_related('door')
+        .order_by('door__number')
     )
-    return UserDoorProgress.objects.filter(user=user).select_related('door')
 
 
 def _door_is_accessible(door, progress, date_restrictions_enabled, today=None):
@@ -77,6 +86,7 @@ def dashboard(request):
         }
         for progress in progress_records
     ]
+    doors.sort(key=lambda entry: entry['door'].number)
     return render(request, 'dashboard.html', {'doors': doors})
 
 @login_required(login_url="login")
